@@ -4,9 +4,11 @@
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
+    using Context;
     using GreenPipes;
     using MessageObservers;
     using Pipeline;
+    using RabbitMQ.Client.client.impl;
     using Util;
 
 
@@ -123,6 +125,9 @@
 
             public Task Consume(ConsumeContext<T> context)
             {
+                LogContext.Debug?.Log(
+                    $"!!!Message is processed on thread {Thread.CurrentThread.ManagedThreadId} with LogicalCallContext data: {LogicalCallContext.State.Value}");
+
                 Received.Add(context);
                 _multiConsumer._received.Add(context);
 

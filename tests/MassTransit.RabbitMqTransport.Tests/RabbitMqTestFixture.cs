@@ -7,6 +7,7 @@
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Text;
+    using System.Threading;
     using System.Threading.Tasks;
     using MassTransit.Testing;
     using Newtonsoft.Json;
@@ -14,6 +15,7 @@
     using NUnit.Framework;
     using NUnit.Framework.Internal;
     using RabbitMQ.Client;
+    using RabbitMQ.Client.client.impl;
     using RabbitMqTransport.Testing;
     using TestFramework;
     using Transports;
@@ -81,6 +83,8 @@
             _fixtureContext = TestExecutionContext.CurrentContext;
 
             LoggerFactory.Current = _fixtureContext;
+
+            LogicalCallContext.State.Value = $"Value_from_start_bus_thread_with_id:{Thread.CurrentThread.ManagedThreadId}";
 
             await RabbitMqTestHarness.Start().ConfigureAwait(false);
 

@@ -324,6 +324,9 @@
                 var message = new B {Id = Guid.NewGuid()};
 
                 await Bus.Publish(message);
+                await Bus.Publish(message);
+                await Bus.Publish(message);
+                await Bus.Publish(message);
 
                 _consumer.Received.Select<B>().Any().ShouldBe(true);
 
